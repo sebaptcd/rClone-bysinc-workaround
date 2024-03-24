@@ -9,7 +9,7 @@ This script uses the stable commands of the software to mimic a reliable bidirec
 ##
 
 <b>Current Version:</b><br>
-v1.0.0 mk1
+v1.0.0.0 mk1
 
 <b>Tested OS:</b><br>
 - Debian 12: Bookworm
