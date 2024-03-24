@@ -14,10 +14,12 @@ v1.0.0 mk1
 <b>Tested OS:</b><br>
 - Debian 12: Bookworm
 
-<b>Known issues:</b>
+<h2 align="center">Install Instructions</h2>
+TBA
 
 <br>
 
+<h2 align="center">Known issues:</h2>
 - If files are completely deleted from local in the break time and computer shuts down, on boot, the files will be recreated.
 <br>
 <b>Solution(s):<b>
@@ -28,7 +30,7 @@ v1.0.0 mk1
 
 - If I create a file on the server after the computer booted (after the boot command ran), on the next sync, that file will be deleted.
 <br>
-<b>Solution(s):<b>
+<b>Solution(s):</b>
 1. Don't delete create files on the server while computer is on.
 
 <br><br>
@@ -58,9 +60,6 @@ If two computers are on, all issues above will take place on both of the compute
 <br>
 <b>Solution(s):<b>
 1. Pause the sync on the computer you do not work on.
-
-<h2 align="center">Install Instructions</h2>
-TBA
 
 <br><br>
 **This repository follows the [iVer](https://github.com/frontfacer/iVer) versioning format.*
