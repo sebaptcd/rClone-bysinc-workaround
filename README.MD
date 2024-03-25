@@ -82,7 +82,7 @@ mkdir "Cloud/Drive3"
 
 <br>
 
-<b>5. Create two more subdirectories in the one created at step 3.</b><br>
+<b>5. Create two more subdirectories in the one created at step 4.</b><br>
 - Go into the directory created at the previews step if not already there.
 ```
 cd "/home/{user}/Desktop/rCloneSync/Setups/"
@@ -100,7 +100,7 @@ mkdir "Logs"
 
 <br>
 
-<b>6. Create two more subdirectories in the "Logs" direcotry created at step 4 and two other sub directories of them that register the canceled syncs.</b><br>
+<b>6. Create two more subdirectories in the "Logs" direcotry created at step 5 and two other sub directories of them that register the canceled syncs.</b><br>
 - Go into the "Logs" directory created at the previews step.
 ```
 cd "/home/{user}/Desktop/rCloneSync/Setups/Logs"
