@@ -32,11 +32,10 @@ v1.0.0 mk1 [(view release notes)](RELEASE.md)
 <b>2. Create a "var.sh" file into a different location.</b><br>
 - For this example, we will use: "/home/{user}/Desktop/rCloneSync/0. Private/rClone-bysinc-workaround/var.sh"
 - We will store our syncing paths to both the local and the server here.
-<br><br>
-<b>Example of "var.sh":</b>
 <br>
-*All of these are paths to folders and not files.<br>
-At this point you have also set up your rClone cloud providers and you are now just declaring them.*
+<h4><b>Example of "var.sh":</b></h4>
+*All of these are paths to folders and not files.*<br>
+*At this point you have also set up your rClone cloud providers and you are now just declaring them.*
 
 ```
 #!/bin/bash
