@@ -14,52 +14,60 @@ v1.0.0 mk1
 <b>Tested OS:</b><br>
 - Debian 12: Bookworm
 
+<br>
+
 <h2 align="center">Install Instructions</h2>
 TBA
 
 <br>
 
-<h2 align="center">Known issues:</h2>
-- If files are completely deleted from local in the break time and computer shuts down, on boot, the files will be recreated.
-<br>
-<b>Solution(s):<b>
-1. Wait until the next sync for the files to be deleted on the server as well.
-2. Delete the files from the server only after the computer turned off.
+<h2 align="center">Known issues</h2>
+<h3>1. If files are completely deleted from the local during the 10-minutes break time and the computer shuts down, on the next boot, the deleted files will be recreated. </h3>
 
-<br><br>
-
-- If I create a file on the server after the computer booted (after the boot command ran), on the next sync, that file will be deleted.
-<br>
 <b>Solution(s):</b>
-1. Don't delete create files on the server while computer is on.
+1. Wait until the next sync cycle, which will delete the files from the server as well.
+2. Delete the files straight from the server after the computer is turned off.
 
-<br><br>
-
-Renaming on the server after the computer booted will also not take effect.
 <br>
-<b>Solution(s):<b>
+
+<h3>2. If new files are created on the server after the computer boots up (after the boot command ran), on the next sync cycle, that file will be deleted.</h3>
+
+<b>Solution(s):</b>
+1. Don't delete or create files on the server while computer is on.
+
+<br>
+
+<h3>3. Renaming on the server after the computer booted will also not take effect. </h3>
+
+<b>Solution(s):</b>
 1. Do not rename any files or folders on the server while the computer is on.
 
-<br><br>
-
-If I create a file in the middle of the sync cycle (right after server upload and before server download) the new file will be deleted when the sync completes.
 <br>
-<b>Solution(s):<b>
-1. Do not create new files in the middle of the sync, just wait until the sync is complete.
 
-<br><br>
+<h3>4. Files created in the middle of the sync cycle (right after server upload and before server download) will be deleted when the sync completes.</h3>
 
-Newly created files will be deleted at next boot if the sync has not happened since their creation.
+<b>Solution(s):</b>
+1. Do not create new files in the middle of the sync; just wait until the sync is complete (the notifications are there to help you track the status of the sync).
+
 <br>
-<b>Solution(s):<b>
-1. Make sure one sync cycle has happened after creating new files.
 
-<br><br>
+<h3>5. Newly created files will be deleted at the next boot if the sync has not happened after they were made (computer was closed right after a file was created).</h3>
 
-If two computers are on, all issues above will take place on both of the computers.
+<b>Solution(s):</b>
+1. Make sure one sync cycle has happened after creating new files (use the notifications to check if the sync happened).
+
 <br>
-<b>Solution(s):<b>
+
+<h3>6. If two computers are on, all the issues above might take place on both of the computers.</h3>
+
+<b>Solution(s):</b>
 1. Pause the sync on the computer you do not work on.
+2. Make sure you work with already-created files and not new/deleted ones.
 
-<br><br>
+<br>
+
+##
 **This repository follows the [iVer](https://github.com/frontfacer/iVer) versioning format.*
+
+<br>
+<p align="center">© 2024 | Sebastian Ghiveci<br/>sebastian.ghiveci.com<br>
