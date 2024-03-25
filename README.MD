@@ -34,7 +34,9 @@ v1.0.0 mk1 [(view release notes)](RELEASE.md)
 - We will store our syncing paths to both the local and the server here.
 <br>
 <h4><b>Example of "var.sh":</b></h4>
-*All of these are paths to folders and not files.*<br>
+
+*All of these are paths to folders and not files.*
+<br>
 *At this point you have also set up your rClone cloud providers and you are now just declaring them.*
 
 ```
