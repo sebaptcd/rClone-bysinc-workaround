@@ -37,6 +37,7 @@ v1.0.0 mk1 [(view release notes)](RELEASE.md)
 <br>
 *All of these are paths to folders and not files.<br>
 At this point you have also set up your rClone cloud providers and you are now just declaring them.*
+
 ```
 #!/bin/bash
 
