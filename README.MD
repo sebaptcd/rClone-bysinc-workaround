@@ -3,13 +3,16 @@
 <b>Why?</b> <br>
 rClone bisync feature is currently in beta and not reliable.
 
+<b>What?</b> <br>
+A straightforward script that uses the Linux crontab and rClone for the heavy lifting, to provide a seamless syncing experience with no maintenance or extra commands from your end such as resyncing or any other forms of manual maintenance.
+
 <b>How?</b><br>
 This script uses the stable commands of the software to mimic a reliable bidirectional syncing experience.
 
 ##
 
 <b>Current Version:</b><br>
-v1.0.0 mk1
+v1.0.0 mk1 [(view release notes)](RELEASE.md)
 
 <b>Tested OS:</b><br>
 - Debian 12: Bookworm
