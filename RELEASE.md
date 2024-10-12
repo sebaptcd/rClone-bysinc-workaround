@@ -1,3 +1,13 @@
+<h2><b>v1.1.0 mk1</b><br></h2>
+
+- Improved the error detection function.<br>
+- Added a new remote and started experimenting the bisync command on it.<br>
+- Declared the flags of the "sync" command in a global variable.<br>
+- Added additional flags for the "sync" command that makes the transfer of many small files fast and efficient.<br>
+- Adjusted the log level from DEBUG to INFO for a more lightweight and faster to read output.<br>
+- Fixed spelling mistakes in the install instructions.<br>
+- Unified the style of the code.<br>
+
 <h2><b>v1.0.0 mk1</b><br></h2>
 
 - The script will begin by triggering the rClone sync commands in a specific order (namely: <b>orderBoot</b>).<br>

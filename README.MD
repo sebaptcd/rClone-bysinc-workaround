@@ -10,7 +10,7 @@ A straightforward script that uses the Linux crontab and rClone for the heavy li
 This script uses the stable commands of the software to mimic a reliable bidirectional syncing experience.
 
 <b>Contribute!</b><br>
-If you have any suggestions or improvments, please open a pull request!
+If you have any suggestions or improvements, please open a pull request!
 
 ##
 
@@ -25,12 +25,12 @@ v1.0.0 mk1 [(view release notes)](RELEASE.md)
 <h2 align="center">Install Instructions</h2>
 
 <b>1. Place the [Syncing.sh](Syncing.sh) script into a folder of choosing from your computer.</b><br>
-- For this example, we will use: "/home/{user}/Desktop/rCloneSync/rClone-bysinc-workaround/Syncing.sh"
+- For this example, we will use: "/home/{user}/Desktop/rCloneSync/rClone-bisync-workaround/Syncing.sh"
 
 <br>
 
 <b>2. Create a "var.sh" file into a different location.</b><br>
-- For this example, we will use: "/home/{user}/Desktop/rCloneSync/0. Private/rClone-bysinc-workaround/var.sh"
+- For this example, we will use: "/home/{user}/Desktop/rCloneSync/0. Private/rClone-bisync-workaround/var.sh"
 - We will store our syncing paths to both the local and the server here.
 <br>
 <h4><b>Example of "var.sh":</b></h4>
@@ -61,7 +61,7 @@ WORKSTATION_local='/home/{user}/Desktop/rCloneSync/Cloud/Drive3'
 <br>
 
 <b>3. Create the local directories as set up at step 2 in the var.sh.</b><br>
-- In this case, we will swith to the parent directory and create them as follows:
+- In this case, we will switch to the parent directory and create them as follows:
 ```
 cd "/home/{user}/Desktop/rCloneSync"
 ```
@@ -100,13 +100,13 @@ mkdir "Logs"
 
 <br>
 
-<b>6. Create two more subdirectories in the "Logs" direcotry created at step 5 and two other sub directories of them that register the canceled syncs.</b><br>
+<b>6. Create two more subdirectories in the "Logs" directory created at step 5 and two other sub directories of them that register the canceled syncs.</b><br>
 - Go into the "Logs" directory created at the previews step.
 ```
 cd "/home/{user}/Desktop/rCloneSync/Setups/Logs"
 ```
 
-- Create the subdirectory that registerers the Boot logs and its canceled events.
+- Create the subdirectory that registers the Boot logs and its canceled events.
 ```
 mkdir "Boot"
 ```
@@ -115,7 +115,7 @@ mkdir "Boot"
 mkdir "Boot/Canceled"
 ```
 
-- Create the subdirectory that registerers the regular Sync cycles and its canceled events.
+- Create the subdirectory that registers the regular Sync cycles and its canceled events.
 ```
 mkdir "Sync"
 ```
@@ -137,20 +137,20 @@ chmod +x var.sh
 <br>
 
 <b>8. Configure your crontab to trigger the script whenever the computer boots.</b><br>
-- Open the crotab editor from terminal:<br>
+- Open the crontab editor from terminal:<br>
 *If this is the first time you open it, you might be asked to create a new crontab.*
 ```
 crontab -e
 ```
 
-- At the bottom of you crontab, below the commeted sections, paste the flowwing:<br>
+- At the bottom of you crontab, below the commented sections, paste the flowing:<br>
 ```
 XDG_RUNTIME_DIR="/run/user/1000"
-@reboot sleep 30 && "home/{user}/Desktop/rCloneSync/rClone-bysinc-workaround/Syncing.sh"
+@reboot sleep 30 && "home/{user}/Desktop/rCloneSync/rClone-bisync-workaround/Syncing.sh"
 ```
 <br>
 
-<b>Ending note:</b> Make sure you double check each path to be linked corretly and that they make sense for your system. If you need any help seeting things up, please reach out to [open@sebastian.ghiveci.com](mailto:open@sebastian.ghiveci.com).
+<b>Ending note:</b> Make sure you double check each path to be linked correctly and that they make sense for your system. If you need any help setting things up, please reach out to [open@sebastian.ghiveci.com](mailto:open@sebastian.ghiveci.com).
 
 <br>
 
