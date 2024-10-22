@@ -19,8 +19,9 @@ boot_lock="$Setups/rClone-bysinc-workaround/Locks/Boot-Sync.lock"
 boot_ran_lock="$Setups/rClone-bysinc-workaround/Locks/Boot-Ran.lock"
 logs="$Setups/rClone-bysinc-workaround/Logs"
 
-# Declare the sync flags
+# Declare the sync/bisync flags
 flags="--transfers 64 --checkers 48 --create-empty-src-dirs --update --progress --log-level INFO"
+bisync_flags="--force --recover --resilient"
 
 timestamp=$(date +%Y-%m-%d_%H%M%S)
 
@@ -87,7 +88,7 @@ while true; do
 							if ping -c 1 8.8.8.8 &> /dev/null; then
 						
 								# Personal/Public
-								rclone bisync --recover $flags "$PersonalPb_remote" "$PersoanlPb_local" | while read line; do
+								rclone bisync $bisync_flags $flags "$PersonalPb_remote" "$PersoanlPb_local" | while read line; do
 									# Check for errors
 									if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
 										# Send a notification
@@ -193,17 +194,17 @@ while true; do
 																		
 																		while true; do
 																			# Check if the internet connection is available
-																			if ping -c 1 8.8.8.8 &> /dev/null; then
+																			#if ping -c 1 8.8.8.8 &> /dev/null; then
 																		
 																				# Personal/Public
-																				rclone bisync --recover $flags "$PersoanlPb_local" "$PersonalPb_remote" | while read line; do
+																				#rclone bisync $bisync_flags $flags "$PersoanlPb_local" "$PersonalPb_remote" | while read line; do
 																					# Check for errors
-																					if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
-																						# Send a notification
-																						notify-send "Error: $line"
-																					fi
-																					echo "$line" >> "$sync_lock"
-																				done
+																				#	if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
+																				#		# Send a notification
+																				#		notify-send "Error: $line"
+																				#	fi
+																				#	echo "$line" >> "$sync_lock"
+																				#done
 																		
 																				while true; do
 																					# Check if the internet connection is available
@@ -266,7 +267,7 @@ while true; do
 																											if ping -c 1 8.8.8.8 &> /dev/null; then
 																										
 																												# Personal/Public
-																												rclone bisync --recover $flags "$PersonalPb_remote" "$PersoanlPb_local" | while read line; do
+																												rclone bisync $bisync_flags $flags "$PersonalPb_remote" "$PersoanlPb_local" | while read line; do
 																													# Check for errors
 																													if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
 																														# Send a notification
@@ -363,12 +364,12 @@ while true; do
 																				done
 																				
 																				break
-																			else
-																				# No internet connection
-																				echo "No internet. Reloading in 1 minute."
-																				notify-send "Syncing: (Cycle - UP Personal/Public) No internet. Retrying in 1 minute."
-																				sleep 60
-																			fi
+																			#else
+																			#	# No internet connection
+																			#	echo "No internet. Reloading in 1 minute."
+																			#	notify-send "Syncing: (Cycle - UP Personal/Public) No internet. Retrying in 1 minute."
+																			#	sleep 60
+																			#fi
 																		done
 																			
 																		break
