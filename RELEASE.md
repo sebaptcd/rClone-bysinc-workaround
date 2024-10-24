@@ -1,3 +1,7 @@
+<h2><b>v1.2.1 mk1</b><br></h2>
+
+- Improved the notification system to separate the tile from the context.<br>
+
 <h2><b>v1.2.0 mk1</b><br></h2>
 
 - Removed (commented out) a duplicate "bisync" command, residual from before "bisync", that I believe it to be the cause for some collisions.<br>

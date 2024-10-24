@@ -31,31 +31,31 @@ while true; do
 		# Check if Syncing is not already running or did not finish properly
 		if [ -f "$sync_lock" ]; then
 			echo "Syncing: Past instance found, reloading in 5 minutes..."
-			notify-send "Syncing: Past instance found, reloading in 5 minutes..."
+			notify-send "Syncing" "Past instance found, reloading in 5 minutes..."
 			mv "$sync_lock" "$logs/Sync/Canceled/Canceled_Sync_"$timestamp".log"
 			sleep 300
 		elif [ -f "$boot_ran_lock" ]; then
 			echo "Syncing: Past instance found, reloading in 5 minutes..."
-			notify-send "Syncing: Past instance found, reloading in 5 minutes..."
+			notify-send "Syncing" "Past instance found, reloading in 5 minutes..."
 			mv "$boot_ran_lock" "$logs/Boot/Canceled/Canceled_Boot_"$timestamp".log"
 			sleep 300
 		# Start new syncing instance.
 		elif [ ! -f "$sync_lock" ]; then
 			# Notify that a new instance will start.
 			echo "Syncing: Starting new instance..."
-			notify-send "Syncing: Starting new instance..."
+			notify-send "Syncing" "Starting new instance..."
 			sleep 10
 			# Check and prepare Boot Sync
 			# Check if Boot Syncing is not already running
 			if [ -f "$boot_lock" ]; then
 				# Notify that the Boot Syncing is running already and abort
 			   	echo "Syncing: Boot Sync already running, aborting."
-			   	notify-send "Syncing: Boot Sync already running, aborting."
+			   	notify-send "Syncing" "Boot Sync already running, aborting."
 			   	exit 0
 			elif [ ! -f "$boot_lock" ]; then
 				# Notify that the Boot Syncing will start
 				echo "Syncing: Boot Sync starts in 30 seconds..."
-				notify-send "Syncing: Boot Sync starts in 30 seconds..."
+				notify-send "Syncing" "Boot Sync starts in 30 seconds..."
 				sleep 30
 				
 				#
@@ -70,7 +70,7 @@ while true; do
 						touch "$boot_lock"
 						# Notify that the Boot Syncing starts
 						echo "Syncing: Boot Sync started."
-						notify-send "Syncing: Boot Sync started."
+						notify-send "Syncing" "Boot Sync started."
 						sleep 10
 
 						# Personal
@@ -78,7 +78,7 @@ while true; do
 							# Check for errors
 							if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
 								# Send a notification
-								notify-send "Error: $line"
+								notify-send "Syncing Error:" "$line"
 							fi
 							echo "$line" >> "$boot_lock"
 						done
@@ -92,7 +92,7 @@ while true; do
 									# Check for errors
 									if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
 										# Send a notification
-										notify-send "Error: $line"
+										notify-send "Syncing Error:" "$line"
 									fi
 									echo "$line" >> "$boot_lock"
 								done
@@ -106,7 +106,7 @@ while true; do
 											# Check for errors
 											if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
 												# Send a notification
-												notify-send "Error: $line"
+												notify-send "Syncing Error:" "$line"
 											fi
 											echo "$line" >> "$boot_lock"
 										done
@@ -120,7 +120,7 @@ while true; do
 													# Check for errors
 													if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
 														# Send a notification
-														notify-send "Error: $line"
+														notify-send "Syncing Error:" "$line"
 													fi
 													echo "$line" >> "$boot_lock"
 												done
@@ -130,11 +130,11 @@ while true; do
 												touch "$boot_ran_lock"
 												# Notify that the Boot Syncing is complete
 												echo "Syncing: Boot Sync completed."
-												notify-send "Syncing: Boot Sync completed."
+												notify-send "Syncing" "Boot Sync completed."
 												sleep 10
 												# Notify that the syncing cycle will begin in 10 minutes
 												echo "Syncing: Cycle will begin in 10 minutes."
-												notify-send "Syncing: Cycle will begin in 10 minutes."
+												notify-send "Syncing" "Cycle will begin in 10 minutes."
 												# Mark that the syncing cycle will begin in 10 minutes
 												sleep 600
 
@@ -142,7 +142,7 @@ while true; do
 												if [ ! -f "$boot_ran_lock" ]; then
 													# Notify that the Boot Syncing did not ran and abort
 													echo "Syncing: Boot Sync did not happen yet, reloading..."
-													notify-send "Syncing: Boot Sync did not happen yet, reloading..."
+													notify-send "Syncing" "Boot Sync did not happen yet, reloading..."
 													sleep 10
 												elif [ -f "$boot_ran_lock" ]; then
 													# Remove the mark that boot ran did happen for future instances
@@ -153,7 +153,7 @@ while true; do
 														if [ -f "$boot_lock" ] || [ -f "$boot_ran_lock" ]; then
 															# Notify that another instance started
 															echo "Syncing: Second instance detected, aborting."
-															notify-send "Syncing: Second instance detected, aborting."
+															notify-send "Syncing" "Second instance detected, aborting."
 															exit 0
 														# Check if the internet connection is available
 														elif ping -c 1 8.8.8.8 &> /dev/null; then
@@ -169,7 +169,7 @@ while true; do
 																touch "$sync_lock"
 																# Notify that the syncing cycle will start
 																echo "Syncing: Starting in 30 seconds..."
-																notify-send "Syncing: Starting in 30 seconds..."
+																notify-send "Syncing" "Starting in 30 seconds..."
 																# Give a 30 seconds response time
 																sleep 30
 																
@@ -179,7 +179,7 @@ while true; do
 
 																		# Notify that syncing local -> server will start
 																		echo "Syncing: Uploading on the server..."
-																		notify-send "Syncing: Uploading on the server..."
+																		notify-send "Syncing" "Uploading on the server..."
 																		sleep 10
 																
 																		# Personal
@@ -187,7 +187,7 @@ while true; do
 																			# Check for errors
 																			if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
 																				# Send a notification
-																				notify-send "Error: $line"
+																				notify-send "Syncing Error:" "$line"
 																			fi
 																			echo "$line" >> "$sync_lock"
 																		done
@@ -201,7 +201,7 @@ while true; do
 																					# Check for errors
 																				#	if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
 																				#		# Send a notification
-																				#		notify-send "Error: $line"
+																				#		notify-send "Syncing Error:" "$line"
 																				#	fi
 																				#	echo "$line" >> "$sync_lock"
 																				#done
@@ -215,7 +215,7 @@ while true; do
 																							# Check for errors
 																							if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
 																								# Send a notification
-																								notify-send "Error: $line"
+																								notify-send "Syncing Error:" "$line"
 																							fi
 																							echo "$line" >> "$sync_lock"
 																						done
@@ -229,14 +229,14 @@ while true; do
 																									# Check for errors
 																									if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
 																										# Send a notification
-																										notify-send "Error: $line"
+																										notify-send "Syncing Error:" "$line"
 																									fi
 																									echo "$line" >> "$sync_lock"
 																								done
 																								
 																								# Notify that syncing local -> server was completed
 																								echo "Syncing: Server upload - done."
-																								notify-send "Syncing: Server upload - done."
+																								notify-send "Syncing" "Server upload - done."
 																								sleep 10
 																								
 																								#
@@ -249,7 +249,7 @@ while true; do
 
 																										# Notify that syncing server -> local will start
 																										echo "Syncing: Downloading from the server..."
-																										notify-send "Syncing: Downloading from the server..."
+																										notify-send "Syncing" "Downloading from the server..."
 																										sleep 10
 
 																										# Personal
@@ -257,7 +257,7 @@ while true; do
 																											# Check for errors
 																											if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
 																												# Send a notification
-																												notify-send "Error: $line"
+																												notify-send "Syncing Error:" "$line"
 																											fi
 																											echo "$line" >> "$sync_lock"
 																										done
@@ -271,7 +271,7 @@ while true; do
 																													# Check for errors
 																													if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
 																														# Send a notification
-																														notify-send "Error: $line"
+																														notify-send "Syncing Error:" "$line"
 																													fi
 																													echo "$line" >> "$sync_lock"
 																												done
@@ -285,7 +285,7 @@ while true; do
 																															# Check for errors
 																															if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
 																																# Send a notification
-																																notify-send "Error: $line"
+																																notify-send "Syncing Error:" "$line"
 																															fi
 																															echo "$line" >> "$sync_lock"
 																														done
@@ -299,21 +299,21 @@ while true; do
 																																	# Check for errors
 																																	if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
 																																		# Send a notification
-																																		notify-send "Error: $line"
+																																		notify-send "Syncing Error:" "$line"
 																																	fi
 																																	echo "$line" >> "$sync_lock"
 																																done
 																																
 																																# Notify that syncing server -> local was completed
 																																echo "Syncing: Server download - done."
-																																notify-send "Syncing: Server download - done."
+																																notify-send "Syncing" "Server download - done."
 																																sleep 10
 																																
 																																break
 																															else
 																																# No internet connection
 																																echo "No internet. Reloading in 1 minute."
-																																notify-send "Syncing: (Cycle - DOWN WORKSTATION) No internet. Retrying in 1 minute."
+																																notify-send "Syncing" "(Cycle - DOWN WORKSTATION) No internet. Retrying in 1 minute."
 																																sleep 60
 																															fi
 																														done
@@ -322,7 +322,7 @@ while true; do
 																													else
 																														# No internet connection
 																														echo "No internet. Reloading in 1 minute."
-																														notify-send "Syncing: (Cycle - DOWN Dev) No internet. Retrying in 1 minute."
+																														notify-send "Syncing" "(Cycle - DOWN Dev) No internet. Retrying in 1 minute."
 																														sleep 60
 																													fi
 																												done
@@ -331,7 +331,7 @@ while true; do
 																											else
 																												# No internet connection
 																												echo "No internet. Reloading in 1 minute."
-																												notify-send "Syncing: (Cycle - DOWN Personal/Public) No internet. Retrying in 1 minute."
+																												notify-send "Syncing" "(Cycle - DOWN Personal/Public) No internet. Retrying in 1 minute."
 																												sleep 60
 																											fi
 																										done
@@ -340,7 +340,7 @@ while true; do
 																									else
 																										# No internet connection
 																										echo "No internet. Reloading in 1 minute."
-																										notify-send "Syncing: (Cycle - DOWN Personal) No internet. Retrying in 1 minute."
+																										notify-send "Syncing" "(Cycle - DOWN Personal) No internet. Retrying in 1 minute."
 																										sleep 60
 																									fi
 																								done
@@ -349,7 +349,7 @@ while true; do
 																							else
 																								# No internet connection
 																								echo "No internet. Reloading in 1 minute."
-																								notify-send "Syncing: (Cycle - UP WORKSTATION) No internet. Retrying in 1 minute."
+																								notify-send "Syncing" "(Cycle - UP WORKSTATION) No internet. Retrying in 1 minute."
 																								sleep 60
 																							fi
 																						done
@@ -358,7 +358,7 @@ while true; do
 																					else
 																						# No internet connection
 																						echo "No internet. Reloading in 1 minute."
-																						notify-send "Syncing: (Cycle - UP Dev) No internet. Retrying in 1 minute."
+																						notify-send "Syncing" "(Cycle - UP Dev) No internet. Retrying in 1 minute."
 																						sleep 60
 																					fi
 																				done
@@ -367,7 +367,7 @@ while true; do
 																			#else
 																			#	# No internet connection
 																			#	echo "No internet. Reloading in 1 minute."
-																			#	notify-send "Syncing: (Cycle - UP Personal/Public) No internet. Retrying in 1 minute."
+																			#	notify-send "Syncing" "(Cycle - UP Personal/Public) No internet. Retrying in 1 minute."
 																			#	sleep 60
 																			#fi
 																		done
@@ -376,7 +376,7 @@ while true; do
 																	else
 																		# No internet connection
 																		echo "No internet. Reloading in 1 minute."
-																		notify-send "Syncing: (Cycle - UP Personal) No internet. Retrying in 1 minute."
+																		notify-send "Syncing" "(Cycle - UP Personal) No internet. Retrying in 1 minute."
 																		sleep 60
 																	fi
 																done
@@ -385,19 +385,19 @@ while true; do
 																mv "$sync_lock" "$logs/Sync/Sync_"$timestampSync".log"
 																# Notify that the syncing cycle was completed
 																echo "Syncing: Complete."
-																notify-send "Syncing: Complete."
+																notify-send "Syncing" "Complete."
 																# Give a 10 minutes cool-down before the next cycle
 																sleep 600
 
 															elif [ -f "$sync_lock" ]; then
 																echo "Syncing: Second instance detected, aborting."
-																notify-send "Syncing: Second instance detected, aborting."
+																notify-send "Syncing" "Second instance detected, aborting."
 																exit 0
 															fi
 														else
 															# No internet connection
 															echo "No internet. Reloading in 1 minute."
-															notify-send "Syncing: (Cycle) No internet. Retrying in 1 minute."
+															notify-send "Syncing" "(Cycle) No internet. Retrying in 1 minute."
 															sleep 60
 														fi
 													done
@@ -405,28 +405,28 @@ while true; do
 											else
 												# No internet connection
 												echo "No internet. Reloading in 1 minute."
-												notify-send "Syncing: (Boot - Workstation) No internet. Retrying in 1 minute."
+												notify-send "Syncing" "(Boot - Workstation) No internet. Retrying in 1 minute."
 												sleep 60
 											fi
 										done
 									else
 										# No internet connection
 										echo "No internet. Reloading in 1 minute."
-										notify-send "Syncing: (Boot - Dev) No internet. Retrying in 1 minute."
+										notify-send "Syncing" "(Boot - Dev) No internet. Retrying in 1 minute."
 										sleep 60
 									fi
 								done
 							else
 								# No internet connection
 								echo "No internet. Reloading in 1 minute."
-								notify-send "Syncing: (Boot - Personal/Public) No internet. Retrying in 1 minute."
+								notify-send "Syncing" "(Boot - Personal/Public) No internet. Retrying in 1 minute."
 								sleep 60
 							fi
 						done
 					else
 						# No internet connection
 						echo "No internet. Reloading in 1 minute."
-						notify-send "Syncing: (Boot - Personal) No internet. Retrying in 1 minute."
+						notify-send "Syncing" "(Boot - Personal) No internet. Retrying in 1 minute."
 						sleep 60
 					fi
 				done
@@ -435,7 +435,7 @@ while true; do
 	else
 		# No internet connection
 		echo "No internet. Reloading in 1 minute."
-		notify-send "Syncing: (Boot) No internet. Retrying in 1 minute."
+		notify-send "Syncing" "(Boot) No internet. Retrying in 1 minute."
 		sleep 60
 	fi
 done
