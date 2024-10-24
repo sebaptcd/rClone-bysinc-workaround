@@ -1,15 +1,20 @@
-<h2><b>v1.2.1 mk1</b><br></h2>
+<h2><b>v1.2.1.1 mk1</b><br></h2>
 
-- Improved the notification system to separate the tile from the context.<br>
+- Fixed typo in RELEASE.md file.<br>
+- Updated RELEASE.md to follow the latest [iVer](https://github.com/frontfacer/iVer) format.<br>
 
-<h2><b>v1.2.0 mk1</b><br></h2>
+<h2><b>v1.2.1.0 mk1</b><br></h2>
+
+- Improved the notification system to separate the title from the context.<br>
+
+<h2><b>v1.2.0.0 mk1</b><br></h2>
 
 - Removed (commented out) a duplicate "bisync" command, residual from before "bisync", that I believe it to be the cause for some collisions.<br>
 - Declared the "bisync" flags in a global variable as well.<br>
 - Added new "bisync" flags: "--force" and "--resilient"<br>
 - Mentioned that this versioning document follows the iVer format.<br>
 
-<h2><b>v1.1.0 mk1</b><br></h2>
+<h2><b>v1.1.0.0 mk1</b><br></h2>
 
 - Improved the error detection function.<br>
 - Added a new remote and started experimenting the "bisync" command on it.<br>
