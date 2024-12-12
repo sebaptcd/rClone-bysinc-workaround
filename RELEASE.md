@@ -1,3 +1,8 @@
+<h2><b>v2.1.0.0 mk1</b><br></h2>
+
+- All of the drives have now been updated to run the "bisync" command. "Sync" command is now used for backup purposes only since one of the drives is not officially supported yet. The script now acts as a logging and error displaying mechanism.<br>
+- Fixed: boot sync was not generating log directories correctly.<br>
+
 <h2><b>v2.0.0.0 mk1</b><br></h2>
 
 - rClone "bisync" has been tested and it appears to be working good. The script is transitioning towards simply handling logs, showing error notifications and processing the actual commands. Most of the drives have now been updated with "bisync".<br>

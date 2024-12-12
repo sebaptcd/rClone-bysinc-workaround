@@ -53,6 +53,7 @@ bisync_flags=(
 	--force
 	--recover
 	--resilient
+	--max-lock 600
 )
 
 while true; do
@@ -101,12 +102,15 @@ while true; do
 				#echo $(( $(ps aux | grep "Syncing.sh" | grep -v "grep" | wc -l) ))
 				notify-send "Syncing" "Boot Sync starts in 30 seconds..."
 				sleep 30
-				
+
 				#
 				# rclone sync | server -> local
 				#
-				
+
 				while true; do
+
+					dynamic_sync_server_local_flags=("${sync_server_local_flags[@]//PLACEHOLDER_TIMESTAMP/$recycle_bin/$(get_timestamp)}")
+
 					# Check if the internet connection is available
 					if ping -c 1 8.8.8.8 &> /dev/null; then
 
@@ -117,8 +121,10 @@ while true; do
 						notify-send "Syncing" "Boot Sync started."
 						sleep 10
 
+						# ============== THE SYNC ==============
+
 						# Personal
-						rclone sync "${common_flags[@]}" "${sync_flags[@]}" "${sync_server_local_flags[@]}" "$Personal_remote" "$Persoanl_local" | while read line; do
+						rclone sync "${common_flags[@]}" "${sync_flags[@]}" "${dynamic_sync_server_local_flags[@]}" "$Personal_remote" "$Persoanl_local" | while read line; do
 							# Check for errors
 							if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
 								# Send a notification
@@ -126,11 +132,23 @@ while true; do
 							fi
 							echo "$line" >> "$boot_lock"
 						done
-					
+
+						# Personal (resyncing the paths)
+						rclone bisync --resync "${common_flags[@]}" "${bisync_flags[@]}" "$Persoanl_local" "$Personal_remote" | while read line; do
+							# Check for errors
+							if [[ "$line" == *".conflict"* || "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
+								# Send a notification
+								notify-send "Syncing Error:" "$line"
+							fi
+							echo "$line" >> "$boot_lock"
+						done
+
+						# ======================================
+
 						while true; do
 							# Check if the internet connection is available
 							if ping -c 1 8.8.8.8 &> /dev/null; then
-						
+
 								# Personal/Public
 								rclone bisync "${common_flags[@]}" "${bisync_flags[@]}" "$PersonalPb_remote" "$PersoanlPb_local" | while read line; do
 									# Check for errors
@@ -140,11 +158,11 @@ while true; do
 									fi
 									echo "$line" >> "$boot_lock"
 								done
-					
+
 								while true; do
 									# Check if the internet connection is available
 									if ping -c 1 8.8.8.8 &> /dev/null; then
-								
+
 										# Dev
 										rclone bisync "${common_flags[@]}" "${bisync_flags[@]}" "$Dev_remote" "$Dev_local" | while read line; do
 											# Check for errors
@@ -154,11 +172,11 @@ while true; do
 											fi
 											echo "$line" >> "$boot_lock"
 										done
-								
+
 										while true; do
 											# Check if the internet connection is available
 											if ping -c 1 8.8.8.8 &> /dev/null; then
-										
+
 												# WORKSTATION
 												rclone bisync "${common_flags[@]}" "${bisync_flags[@]}" "$WORKSTATION_remote" "$WORKSTATION_local" | while read line; do
 													# Check for errors
@@ -168,7 +186,7 @@ while true; do
 													fi
 													echo "$line" >> "$boot_lock"
 												done
-										
+
 												# Mark that the Boot Syncing is complete
 												mv "$boot_lock" "$logs/Boot/Boot_$(get_timestamp).log"
 												touch "$boot_ran_lock"
@@ -209,7 +227,7 @@ while true; do
 														# Check if the internet connection is available
 														elif ping -c 1 8.8.8.8 &> /dev/null; then
 															if [ ! -f "$sync_lock" ]; then
-																
+
 																#
 																# rclone sync | local -> server
 																#
@@ -221,30 +239,30 @@ while true; do
 																#notify-send "Syncing" "Starting in 30 seconds..."
 																# Give a 30 seconds response time
 																sleep 30
-																
+
 																while true; do
 																	# Check if the internet connection is available
 																	if ping -c 1 8.8.8.8 &> /dev/null; then
 
 																		# Notify that syncing local -> server will start
-																		echo "Syncing: Uploading on the server..."
+																		#echo "Syncing: Uploading on the server..."
 																		#notify-send "Syncing" "Uploading on the server..."
-																		sleep 10
-																
+																		#sleep 10
+
 																		# Personal
-																		rclone sync "${common_flags[@]}" "${sync_flags[@]}" "${sync_local_server_flags[@]}" "$Persoanl_local" "$Personal_remote" | while read line; do
+																		#rclone sync "${common_flags[@]}" "${sync_flags[@]}" "${sync_local_server_flags[@]}" "$Persoanl_local" "$Personal_remote" | while read line; do
 																			# Check for errors
-																			if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
-																				# Send a notification
-																				notify-send "Syncing Error:" "$line"
-																			fi
-																			echo "$line" >> "$sync_lock"
-																		done
-																		
+																		#	if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
+																		#		# Send a notification
+																		#		notify-send "Syncing Error:" "$line"
+																		#	fi
+																		#	echo "$line" >> "$sync_lock"
+																		#done
+
 																		while true; do
 																			# Check if the internet connection is available
 																			#if ping -c 1 8.8.8.8 &> /dev/null; then
-																		
+
 																				# Personal/Public
 																				#rclone bisync "${common_flags[@]}" "${bisync_flags[@]}" "$PersoanlPb_local" "$PersonalPb_remote" | while read line; do
 																					# Check for errors
@@ -254,11 +272,11 @@ while true; do
 																				#	fi
 																				#	echo "$line" >> "$sync_lock"
 																				#done
-																		
+
 																				while true; do
 																					# Check if the internet connection is available
 																					#if ping -c 1 8.8.8.8 &> /dev/null; then
-																				
+
 																						# Dev
 																						#rclone bisync "${common_flags[@]}" "${bisync_flags[@]}" "$Dev_local" "$Dev_remote" | while read line; do
 																						#	# Check for errors
@@ -272,7 +290,7 @@ while true; do
 																						while true; do
 																							# Check if the internet connection is available
 																							#if ping -c 1 8.8.8.8 &> /dev/null; then
-																			
+
 																								# WORKSTATION
 																								#rclone bisync "${common_flags[@]}" "${bisync_flags[@]}" "$WORKSTATION_local" "$WORKSTATION_remote" | while read line; do
 																								#	# Check for errors
@@ -282,12 +300,12 @@ while true; do
 																								#	fi
 																								#	echo "$line" >> "$sync_lock"
 																								#done
-																								
+
 																								# Notify that syncing local -> server was completed
-																								echo "Syncing: Server upload - done."
+																								#echo "Syncing: Server upload - done."
 																								#notify-send "Syncing" "Server upload - done."
-																								sleep 10
-																								
+																								#sleep 10
+
 																								#
 																								# rclone sync | server -> local
 																								#
@@ -301,8 +319,11 @@ while true; do
 																										#notify-send "Syncing" "Downloading from the server..."
 																										sleep 10
 
-																										# Personal
-																										rclone sync "${common_flags[@]}" "${sync_flags[@]}" "${dynamic_sync_server_local_flags[@]}" "$Personal_remote" "$Persoanl_local" | while read line; do
+
+																										# ============== THE SYNC ==============
+
+																										# Personal (local backup / rClone Bin)
+																										rclone sync "${common_flags[@]}" "${sync_flags[@]}" "${dynamic_sync_server_local_flags[@]}" "$Persoanl_local" "$Persoanl_local_backup" | while read line; do
 																											# Check for errors
 																											if [[ "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
 																												# Send a notification
@@ -310,9 +331,9 @@ while true; do
 																											fi
 																											echo "$line" >> "$sync_lock"
 																										done
-																										
-																										# Personal (local bisync)
-																										rclone bisync "${common_flags[@]}" "${bisync_flags[@]}" "$Persoanl_local_bisync" "$Personal_local_mainstream" | while read line; do
+
+																										# Personal
+																										rclone bisync "${common_flags[@]}" "${bisync_flags[@]}" "$Persoanl_local" "$Personal_remote" | while read line; do
 																											# Check for errors
 																											if [[ "$line" == *".conflict"* || "$line" == *"ERROR"* || "$line" == *"Errors:"* ]]; then
 																												# Send a notification
@@ -321,10 +342,13 @@ while true; do
 																											echo "$line" >> "$sync_lock"
 																										done
 
+																										# ======================================
+
+
 																										while true; do
 																											# Check if the internet connection is available
 																											if ping -c 1 8.8.8.8 &> /dev/null; then
-																										
+
 																												# Personal/Public
 																												rclone bisync "${common_flags[@]}" "${bisync_flags[@]}" "$PersonalPb_remote" "$PersoanlPb_local" | while read line; do
 																													# Check for errors
@@ -334,11 +358,11 @@ while true; do
 																													fi
 																													echo "$line" >> "$sync_lock"
 																												done
-																										
+
 																												while true; do
 																													# Check if the internet connection is available
 																													if ping -c 1 8.8.8.8 &> /dev/null; then
-																												
+
 																														# Dev
 																														rclone bisync "${common_flags[@]}" "${bisync_flags[@]}" "$Dev_remote" "$Dev_local" | while read line; do
 																															# Check for errors
@@ -352,7 +376,7 @@ while true; do
 																														while true; do
 																															# Check if the internet connection is available
 																															if ping -c 1 8.8.8.8 &> /dev/null; then
-																														
+
 																																# WORKSTATION
 																																rclone bisync "${common_flags[@]}" "${bisync_flags[@]}" "$WORKSTATION_remote" "$WORKSTATION_local" | while read line; do
 																																	# Check for errors
@@ -362,12 +386,12 @@ while true; do
 																																	fi
 																																	echo "$line" >> "$sync_lock"
 																																done
-																																
+
 																																# Notify that syncing server -> local was completed
 																																echo "Syncing: Server download - done."
 																																#notify-send "Syncing" "Server download - done."
 																																sleep 10
-																																
+
 																																break
 																															else
 																																# No internet connection
@@ -376,7 +400,7 @@ while true; do
 																																sleep 60
 																															fi
 																														done
-																														
+
 																														break
 																													else
 																														# No internet connection
@@ -385,7 +409,7 @@ while true; do
 																														sleep 60
 																													fi
 																												done
-																												
+
 																												break
 																											else
 																												# No internet connection
@@ -421,7 +445,7 @@ while true; do
 																					#	sleep 60
 																					#fi
 																				done
-																				
+
 																				break
 																			#else
 																			#	# No internet connection
@@ -430,7 +454,7 @@ while true; do
 																			#	sleep 60
 																			#fi
 																		done
-																			
+
 																		break
 																	else
 																		# No internet connection
