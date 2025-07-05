@@ -1,3 +1,9 @@
+<h2><b>v3.0.0.0 mk1</b><br></h2>
+
+- Added collision prevention. Now you may run the script on multiple machines at once, without expecting file collisions caused by attempts of modifying them at the same time or half-way during the syncing process.<br>
+- Added the "--local-links" flag to better handle shortcuts.<br>
+- Restructured the codebase.<br>
+
 <h2><b>v2.1.0.0 mk1</b><br></h2>
 
 - All of the drives have now been updated to run the "bisync" command. "Sync" command is now used for backup purposes only since one of the drives is not officially supported yet. The script now acts as a logging and error displaying mechanism.<br>
