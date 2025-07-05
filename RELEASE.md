@@ -1,6 +1,7 @@
 <h2><b>v3.0.0.0 mk1</b><br></h2>
 
 - Added collision prevention. Now you may run the script on multiple machines at once, without expecting file collisions caused by attempts of modifying them at the same time or half-way during the syncing process.<br>
+- Implemented update check. The script checks if a new rClone version is available and waits 5 minutes before proceeding to the syncing process so that the user has time to update. If not updated, the script proceeds as usual anyways.
 - Added the "--local-links" flag to better handle shortcuts.<br>
 - Restructured the codebase.<br>
 
