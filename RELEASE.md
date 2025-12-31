@@ -1,3 +1,18 @@
+<h2><b>v3.1.0.0 mk1</b><br></h2>
+
+- Fixed a bug where the script would exit unexpectedly. Possible identified cause: a lost race with other devices in processing the collision prevention beacon. If the beacon is detected as being present by machine "A", there is a slight chance that by the time it gets processed by it, machine "B" deletes it resulting in a corrupted script on machine "A".<br>
+- Fixed a bug where the script would exit if the latest version of rClone could not be fetched due to various reasons such as a lost internet connection or an unreachable server from rClone's side.<br>
+- Added notifications for unexpected script exits.
+- Updated README.MD with up-to-date information about the script.
+- Corrected major spelling mistakes everywhere.
+
+<h2><b>v3.0.0.0 mk1</b><br></h2>
+
+- Added collision prevention. Now you may run the script on multiple machines at once, without expecting file collisions caused by attempts to modifying them at the same time or halfway during the syncing process.<br>
+- Implemented update check. The script checks if a new rClone version is available and waits 5 minutes before proceeding to the syncing process so that the user has time to update. If not updated, the script proceeds as usual anyway.
+- Added the "--local-links" flag to better handle shortcuts.<br>
+- Restructured the codebase.<br>
+
 <h2><b>v2.1.0.0 mk1</b><br></h2>
 
 - All of the drives have now been updated to run the "bisync" command. "Sync" command is now used for backup purposes only since one of the drives is not officially supported yet. The script now acts as a logging and error displaying mechanism.<br>
@@ -5,9 +20,9 @@
 
 <h2><b>v2.0.0.0 mk1</b><br></h2>
 
-- rClone "bisync" has been tested and it appears to be working good. The script is transitioning towards simply handling logs, showing error notifications and processing the actual commands. Most of the drives have now been updated with "bisync".<br>
-- Fixed: Self clean script if boot sync is interrupted mid process.<br>
-- Introduced a recycle bin so that files can be double checked after deletion.<br>
+- rClone "bisync" has been tested and it appears to be working well. The script is transitioning towards simply handling logs, showing error notifications and processing the actual commands. Most of the drives have now been updated with "bisync".<br>
+- Fixed: Self clean script if boot sync is interrupted mid-process.<br>
+- Introduced a recycle bin so that files can be double-checked after deletion.<br>
 - Thanks to a functional "bisync" command and the implementation of the "recycle bin", the script can now be interrupted at any point, with confidence that data loss is not likely anymore. As a result, notifications about the script status have been removed/commented out.<br>
 - With "bisync" now applied to most of the drives, a conflict error detection has been introduced to be notified of any occurrences.<br>
 - Better handling of the timestamp function and rClone flags.<br>
@@ -24,7 +39,7 @@
 
 <h2><b>v1.2.0.0 mk1</b><br></h2>
 
-- Removed (commented out) a duplicate "bisync" command, residual from before "bisync", that I believe it to be the cause for some collisions.<br>
+- Removed (commented out) a duplicate "bisync" command, residual from before "bisync", that I believe to be the cause for some collisions.<br>
 - Declared the "bisync" flags in a global variable as well.<br>
 - Added new "bisync" flags: "--force" and "--resilient"<br>
 - Mentioned that this versioning document follows the iVer format.<br>
@@ -35,7 +50,7 @@
 - Added a new remote and started experimenting the "bisync" command on it.<br>
 - Declared the flags of the "sync" command in a global variable.<br>
 - Added additional flags for the "sync" command that makes the transfer of many small files fast and efficient.<br>
-- Adjusted the log level from DEBUG to INFO for a more lightweight and faster to read output.<br>
+- Adjusted the log level from DEBUG to INFO for a more lightweight and faster-to-read output.<br>
 - Fixed spelling mistakes in the install instructions.<br>
 - Unified the style of the code.<br>
 

@@ -1,30 +1,30 @@
-# <p align="center"><b>rClone bisync (workaround)</b>
+# <p align="center"><b>rClone bisync ~~(workaround)~~ automation</b>
 
 <b>Why?</b> <br>
-rClone bisync feature is currently in beta and not reliable.
+~~rClone bisync feature is currently in beta and not reliable.~~<br>
+rClone bisync is no longer in beta. This script however remains for convenience and for error logging.
 
 <b>What?</b> <br>
 A straightforward script that uses the Linux crontab and rClone for the heavy lifting, to provide a seamless syncing experience with no maintenance or extra commands from your end such as resyncing or any other forms of manual maintenance.
 
 <b>How?</b><br>
-This script uses the stable commands of the software to mimic a reliable bidirectional syncing experience.
+~~This script uses the stable commands of the software to mimic a reliable bidirectional syncing experience.~~<br>
+It is no longer mimicking anything. The bisync command actually does this now.
 
 <b>Contribute!</b><br>
 If you have any suggestions or improvements, please open a pull request!
 
 ##
 
-<b>Current Version:</b><br>
-v1.0.0 mk1 [(view release notes)](RELEASE.md)
-
 <b>Tested OS:</b><br>
-- Debian 12: Bookworm (GNOME 43.9)
+- Debian 13 Trixie (GNOME 48)
+- Debian 12 Bookworm (GNOME 43.9)
 
 <br>
 
 <h2 align="center">Install Instructions</h2>
 
-<b>1. Place the [Syncing.sh](Syncing.sh) script into a folder of choosing from your computer.</b><br>
+<b>1. Place the [Syncing.sh](Syncing.sh) script into a folder of your choosing from your computer.</b><br>
 - For this example, we will use: "/home/{user}/Desktop/rCloneSync/rClone-bisync-workaround/Syncing.sh"
 
 <br>
@@ -44,35 +44,51 @@ v1.0.0 mk1 [(view release notes)](RELEASE.md)
 
 # Path to the logs
 Setups='/home/{user}/Desktop/rCloneSync/Setups'
+Err='/home/{user}/Desktop/rCloneSync/Configs/Setups/rClone-bisync-workaround/Logs/$Err'
 
-# Personal
-Personal_remote='{nameForDrive1-asSetUpInRclone}'
-Persoanl_local='/home/{user}/Desktop/rCloneSync/Cloud/Drive1'
+# Home path to the rClone bin
+recycle_bin_root='/home/{user}/Desktop/rCloneSync/$Backup'
 
-# Dev
-Dev_remote='{nameForDrive2-asSetUpInRclone}'
-Dev_local='/home/{user}/Desktop/rCloneSync/Cloud/Drive2'
+# Drive 1
+Personal_remote='{Provider 1}:'
+Personal_local='/home/{user}/Desktop/rCloneSync/Cloud/{Provider 1}'
+Personal_local_backup='/home/{user}/Desktop/rCloneSync/$Backup/rClone Backup/{Provider 1}'
 
-# WORKSTATION
-WORKSTATION_remote='{nameForDrive3-asSetUpInRclone}'
-WORKSTATION_local='/home/{user}/Desktop/rCloneSync/Cloud/Drive3'
+# Drive 2
+PersonalPb_root_remote='{Provider 2}:'
+PersonalPb_remote='{Provider 2}:Drive'
+PersonalPb_local='/home/{user}/Desktop/rCloneSync/Cloud/{Provider 2}'
+
+# Drive 3
+Dev_remote='{Provider 3}:Drive'
+Dev_local='/home/{user}/Desktop/rCloneSync/{Provider 3}/Cloud'
+
+# Drive 4
+WORKSTATION_remote='{Provider 4}:@WORKSTATION'
+WORKSTATION_local='/home/{user}/Desktop/rCloneSync/{Provider 4}/Cloud'
+
+# Define the Sync Control location
+SyncControl_root='{Provider of your choice}:'
 ```
 
 <br>
 
-<b>3. Create the local directories as set up at step 2 in the var.sh.</b><br>
+<b>3. Create the local directories as shown at step 2 in the "var.sh" file.</b><br>
 - In this case, we will switch to the parent directory and create them as follows:
 ```
-cd "/home/{user}/Desktop/rCloneSync"
+cd "/home/{user}/Desktop/rCloneSync/Cloud"
 ```
 ```
-mkdir "Cloud/Drive1"
+mkdir "{Provider 1}"
 ```
 ```
-mkdir "Cloud/Drive2"
+mkdir "{Provider 2}"
 ```
 ```
-mkdir "Cloud/Drive3"
+mkdir "{Provider 3}"
+```
+```
+mkdir "{Provider 4}"
 ```
 
 <br>
@@ -83,7 +99,7 @@ mkdir "Cloud/Drive3"
 <br>
 
 <b>5. Create two more subdirectories in the one created at step 4.</b><br>
-- Go into the directory created at the previews step if not already there.
+- Go into the directory created at the previous step if not already there.
 ```
 cd "/home/{user}/Desktop/rCloneSync/Setups/"
 ```
@@ -100,8 +116,8 @@ mkdir "Logs"
 
 <br>
 
-<b>6. Create two more subdirectories in the "Logs" directory created at step 5 and two other sub directories of them that register the canceled syncs.</b><br>
-- Go into the "Logs" directory created at the previews step.
+<b>6. Create two more subdirectories in the "Logs" directory created at step 5 and two other subdirectories of them that register the canceled syncs.</b><br>
+- Go into the "Logs" directory created at the previous step.
 ```
 cd "/home/{user}/Desktop/rCloneSync/Setups/Logs"
 ```
@@ -143,10 +159,10 @@ chmod +x var.sh
 crontab -e
 ```
 
-- At the bottom of you crontab, below the commented sections, paste the flowing:<br>
+- At the bottom of your crontab (below the commented sections), paste the following:<br>
 ```
 XDG_RUNTIME_DIR="/run/user/1000"
-@reboot sleep 30 && "home/{user}/Desktop/rCloneSync/rClone-bisync-workaround/Syncing.sh"
+@reboot sleep 30 && "/home/{user}/Desktop/rCloneSync/rClone-bisync-workaround/Syncing.sh"
 ```
 <br>
 
@@ -154,8 +170,9 @@ XDG_RUNTIME_DIR="/run/user/1000"
 
 <br>
 
-<h2 align="center">Known issues</h2>
-<h4><b>1. If files are completely deleted from the local during the 10-minutes break time and the computer shuts down, on the next boot, the deleted files will be recreated.</b></h4>
+<h2 align="center">Known issues<br></h2>
+<p align="center">Only applicable for the remotes that do not (fully) use bisync, which is only one since <b>v2.1.0.0 mk1</b></p>
+<h4><b>1. If files are completely deleted from the local during the 5-minute break time and the computer shuts down, on the next boot, the deleted files will be recreated.</b></h4>
 
 <b>Solution(s):</b>
 1. Wait until the next sync cycle, which will delete the files from the server as well.
@@ -163,42 +180,35 @@ XDG_RUNTIME_DIR="/run/user/1000"
 
 <br>
 
-<h4><b>2. If new files are created on the server after the computer boots up (after the boot command ran), on the next sync cycle, that file will be deleted.</b></h4>
-
-<b>Solution(s):</b>
-1. Don't delete or create files on the server while computer is on.
+~~<h4><b>2. If new files are created on the server after the computer boots up (after the boot command ran), on the next sync cycle, that file will be deleted.</b></h4>~~
 
 <br>
 
-<h4><b>3. Renaming on the server after the computer booted will also not take effect.</b></h4>
-
-<b>Solution(s):</b>
-1. Do not rename any files or folders on the server while the computer is on.
+~~<h4><b>3. Renaming on the server after the computer booted will also not take effect.</b></h4>~~
 
 <br>
 
-<h4><b>4. Files created in the middle of the sync cycle (right after server upload and before server download) will be deleted when the sync completes.</b></h4>
-
-<b>Solution(s):</b>
-1. Do not create new files in the middle of the sync; just wait until the sync is complete (the notifications are there to help you track the status of the sync).
+~~<h4><b>4. Files created in the middle of the sync cycle (right after server upload and before server download) will be deleted when the sync completes.</b></h4>~~
 
 <br>
 
 <h4><b>5. Newly created files will be deleted at the next boot if the sync has not happened after they were made (computer was closed right after a file was created).</b></h4>
 
 <b>Solution(s):</b>
-1. Make sure one sync cycle has happened after creating new files (use the notifications to check if the sync happened).
+1. Make sure one sync cycle has happened after creating new files ~~(use the notifications to check if the sync happened)~~ (notifications no longer in place since <b>v2.0.0.0 mk1</b>).
 
 <br>
 
-<h4><b>6. If two computers are on, all the issues above might take place on both of the computers.</b></h4>
+~~<h4><b>6. If two computers are on, all the issues above might take place on both of the computers.</b></h4>~~
 
-<b>Solution(s):</b>
-1. Pause the sync on the computer you do not work on.
-2. Make sure you work with already-created files and not new/deleted ones.
+Not anymore since <b>v3.0.0.0 mk1</b>
+
+~~<b>Solution(s):</b>~~<br>
+~~1. Pause the sync on the computer you do not work on.~~<br>
+~~2. Make sure you work with already-created files and not new/deleted ones.~~<br>
 
 ##
 **This repository follows the [iVer](https://github.com/frontfacer/iVer) versioning format.*
 
 <br>
-<p align="center">© 2024 | Sebastian Ghiveci<br/>sebastian.ghiveci.com<br>
+<p align="center">© 2024-2025 | Sebastian Ghiveci<br/>sebastian.ghiveci.com<br>
