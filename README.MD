@@ -179,16 +179,24 @@ XDG_RUNTIME_DIR="/run/user/1000"
 2. Delete the files straight from the server after the computer is turned off.
 
 <br>
+<h4>
 
-~~<h4><b>2. If new files are created on the server after the computer boots up (after the boot command ran), on the next sync cycle, that file will be deleted.</b></h4>~~
+~~<b>2. If new files are created on the server after the computer boots up (after the boot command ran), on the next sync cycle, that file will be deleted.</b>~~
+
+</h4>
 
 <br>
+</h4>
 
-~~<h4><b>3. Renaming on the server after the computer booted will also not take effect.</b></h4>~~
+~~<b>3. Renaming on the server after the computer booted will also not take effect.</b>~~
 
+</h4>
 <br>
+</h4>
 
-~~<h4><b>4. Files created in the middle of the sync cycle (right after server upload and before server download) will be deleted when the sync completes.</b></h4>~~
+~~<b>4. Files created in the middle of the sync cycle (right after server upload and before server download) will be deleted when the sync completes.</b>~~
+
+</h4>
 
 <br>
 
@@ -199,7 +207,11 @@ XDG_RUNTIME_DIR="/run/user/1000"
 
 <br>
 
-~~<h4><b>6. If two computers are on, all the issues above might take place on both of the computers.</b></h4>~~
+</h4>
+
+~~<b>6. If two computers are on, all the issues above might take place on both of the computers.</b>~~
+
+</h4>
 
 Not anymore since <b>v3.0.0.0 mk1</b>
 
